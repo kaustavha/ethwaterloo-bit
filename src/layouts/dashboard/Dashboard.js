@@ -46,11 +46,12 @@ class Dashboard extends Component {
       IdStoreInstance = instance;
       console.log('i');
       window.ISA = IdStoreInstance;
-      return IdStoreInstance.createId.call(name,email,address,"FB","shh its a secret");
+      return IdStoreInstance.createId(name,email,address,"FB","shh its a secret", {from: window.web3.eth.defaultAccount});
     }).then(() => {
       console.log("e");
       console.log("succ");
     });
+    // window.ISA.createId.sendTransaction( "a","a",web3.eth.defaultAccount, 'a', 'a', { from: web3.eth.defaultAccount })
     // console.log(is);
     // console.log(this.props.authData.name,
     //   this.props.authData.email,
