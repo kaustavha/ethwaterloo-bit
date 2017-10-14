@@ -33,6 +33,7 @@ class Dashboard extends Component {
     if (this.state.address.length < 1) {
       this.checkMetaMask();
     }
+    console.log(user);
     const address = this.state.address,
           name = user.name,
           email = user.email;
@@ -44,7 +45,8 @@ class Dashboard extends Component {
     is.deployed().then((instance) => {
       IdStoreInstance = instance;
       console.log('i');
-      return IdStoreInstance.set.call(name,email,address);
+      window.ISA = IdStoreInstance;
+      return IdStoreInstance.createId.call(name,email,address,"FB","shh its a secret");
     }).then(() => {
       console.log("e");
       console.log("succ");
