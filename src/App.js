@@ -12,7 +12,36 @@ import './css/open-sans.css'
 import './css/pure-min.css'
 import './App.css'
 
+// const web3;
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.getInitialData = this.getInitialData.bind(this);
+    this.getInitialData();
+  }
+  askForMetaMaskLogin(accs) {
+    console.log(accs);
+    alert("Please login to metaMask");
+  }
+  getInitialData() {
+    var self = this;
+    if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !== 'undefined') {
+    // Use Mist/MetaMask's provider
+    const web3 = window.web3;
+      console.log("Successfully connected to MetaMask")
+      web3.setProvider(window.web3.currentProvider);
+
+      web3.eth.getAccounts(function(err, accs){
+        if (err){
+          console.log ('error fetching accounts', err);
+        } else {
+          if (accs.length < 1) self.askForMetaMaskLogin(accs);
+          self.setState({accounts: accs});
+        }
+      });
+    }
+  }
   render() {
     const OnlyAuthLinks = VisibleOnlyAuth(() =>
       <span>

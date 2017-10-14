@@ -1,3 +1,4 @@
+// marked for deletion
 import { Connect } from 'uport-connect'
 
 export let uport = new Connect('TruffleBox')

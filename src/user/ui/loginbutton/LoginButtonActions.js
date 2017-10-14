@@ -1,4 +1,4 @@
-import { uport } from './../../../util/connectors.js'
+//import { uport } from './../../../util/connectors.js'
 import { browserHistory } from 'react-router'
 
 export const USER_LOGGED_IN = 'USER_LOGGED_IN'
@@ -15,14 +15,12 @@ export function loginUser(user) {
   console.log('loginuser');
   // console.log(user);
   return function(dispatch) {
-  dispatch(userLoggedIn(user));
-      var currentLocation = browserHistory.getCurrentLocation()
-      if ('redirect' in currentLocation.query)
-      {
-        return browserHistory.push(decodeURIComponent(currentLocation.query.redirect))
-      }
-
-      return browserHistory.push('/dashboard')
+    dispatch(userLoggedIn(user));
+    var currentLocation = browserHistory.getCurrentLocation()
+    if ('redirect' in currentLocation.query){
+      return browserHistory.push(decodeURIComponent(currentLocation.query.redirect))
+    }
+    return browserHistory.push('/dashboard')
   }
   // return function(dispatch) {
   //   // UPort and its web3 instance are defined in ./../../../util/wrappers.

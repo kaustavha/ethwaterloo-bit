@@ -11,7 +11,11 @@ function userLoggedOut(user) {
 export function logoutUser() {
   return function(dispatch) {
     // Logout user.
-    dispatch(userLoggedOut())
+    window.FB.logout((res) => {
+      console.log("Logging out");
+      console.log(res);
+      dispatch(userLoggedOut());
+    });
 
     // Redirect home.
     return browserHistory.push('/')
