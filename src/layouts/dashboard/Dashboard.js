@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 const contract = require('truffle-contract')
-
+import ISA from '../../../build/contracts/IdentityStorage.json'
 class Dashboard extends Component {
   constructor(props, { authData }) {
     super(props)
@@ -8,18 +8,13 @@ class Dashboard extends Component {
 
     authData = this.props
     var address = window.web3.eth.accounts[0];
-    this.state = {address: address, IdentityStorage: {}};
+    this.state = {address: address};
     this.handleChange = this.handleChange.bind(this);
-    var jq = window.$;
   }
 
   InitializeContract() {
-    this.jq.getJSON("IdentityStorage.json", (data) => {
-      var ISA = data;
+      console.log("init contract");
       this.setState({IdentityStorage: contract(ISA)});
-      // App.contracts.Adoption.setProvider(App.web3Provider);
-      // App.contracts.IdentityStorage = TruffleContract(ISA);
-    });
   }
 
   checkMetaMask(cb) {
@@ -28,7 +23,8 @@ class Dashboard extends Component {
       if (acc.length < 1) {
         alert("Please Login to metamask or manually provide a wallet address to associate with your account");
       } else {
-        this.state.address = acc[0];
+        this.setState({address: acc[0]});
+        // this.state.address = acc[0];
       }
       if (cb) cb();
     });
@@ -37,16 +33,34 @@ class Dashboard extends Component {
     if (this.state.address.length < 1) {
       this.checkMetaMask();
     }
+    const address = this.state.address,
+          name = user.name,
+          email = user.email;
     
-    // e.preventDefault();
-    console.log(this.state.address)
-    console.log(user);
-    console.log("store on chain");
-    console.log(this.web3);
-    // console.log(this.state.accounts);
-    console.log(window.web3);
-    // console.log(this.props.authData);
-    this.InitializeContract();
+    console.log(address, name, email);
+    var is = contract(ISA);
+    is.setProvider(window.web3.currentProvider);
+    var IdStoreInstance;
+    is.deployed().then((instance) => {
+      IdStoreInstance = instance;
+      console.log('i');
+      return IdStoreInstance.set.call(name,email,address);
+    }).then(() => {
+      console.log("e");
+      console.log("succ");
+    });
+    // console.log(is);
+    // console.log(this.props.authData.name,
+    //   this.props.authData.email,
+    //   this.state.address)
+    // //nea
+    // is.set(
+    //   this.state.authData.name,
+    //   this.state.authData.email,
+    //   this.state.address, (err, succ) => {
+    //     console.log(err);
+    //     console.log(succ);
+    //   });
   }
   handleChange(event) {
     this.setState({address: event.target.value});
