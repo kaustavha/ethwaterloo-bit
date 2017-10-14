@@ -8,10 +8,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoginUserClick: (event) => {
-      event.preventDefault();
-
-      dispatch(loginUser())
+    onLoginUserClick: (user) => {
+      dispatch(loginUser(user))
     }
   }
 }
