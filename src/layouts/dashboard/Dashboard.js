@@ -8,7 +8,7 @@ class Dashboard extends Component {
 
     authData = this.props
     var address = window.web3.eth.accounts[0];
-    this.state = {address: address};
+    this.state = {address: address, id: 0, privData:''};
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -37,20 +37,72 @@ class Dashboard extends Component {
     const address = this.state.address,
           name = user.name,
           email = user.email;
-    
+          // id "10155849841707360"
     console.log(address, name, email);
+
     var is = contract(ISA);
     is.setProvider(window.web3.currentProvider);
-    var IdStoreInstance;
-    is.deployed().then((instance) => {
-      IdStoreInstance = instance;
-      console.log('i');
-      window.ISA = IdStoreInstance;
-      return IdStoreInstance.createId(name,email,address,"FB","shh its a secret", {from: window.web3.eth.defaultAccount});
-    }).then(() => {
-      console.log("e");
-      console.log("succ");
+    // var IdStoreInstance = is.deployed();
+    // console.log(IdStoreInstance);
+    // window.ISA = IdStoreInstance;
+    // var IdCreated = IdStoreInstance.IdCreated({fromBlock: "latest"});
+    // IdCreated.watch((e,s)=>{console.log("EVENT!!!"); console.log(e,s);});
+    // IdStoreInstance.createId(name,email,address,"FB","shh its a secret", {from: window.web3.eth.defaultAccount});
+    var IdCreatedEvent;
+      // IdCreatedEvent = IdStoreInstance.IdCreated();
+      // IdCreatedEvent.watch((e,r)=>{console.log("EVE")});
+
+    window.ISA = {};
+
+    is.deployed().then((ISA) => {
+      console.log(ISA);
+      window.ISA = ISA;
+      window.ISA.get = function(i, cb) {
+        ISA.getAll(i, (s,a,m,l,la)=>{console.log(s,a,m,l,la)});
+        ISA.getSocial(i, console.log);
+        if (cb) cb();
+      }
+      IdCreatedEvent = ISA.IdCreated({fromBlock: "latest", from: window.web3.eth.defaultAccount});
+      console.log(IdCreatedEvent);
+      IdCreatedEvent.watch((e,r)=>{console.log("EVE")});
+
+      return ISA.createId(name,email,address,"FB","shh its a secret", {from: window.web3.eth.defaultAccount});
+    }).then(()=>{
+      console.log("NEXT2");
+      console.log(ISA);
+      return window.ISA.find(name,email,address,"FB","shh its a secret", {from: window.web3.eth.defaultAccount});
+    }).then((r,e)=>{
+      console.log("NEXT3");
+      console.log(r,e);
+      return window.ISA.getAll(r);
+    }).then((r,e) => {
+      console.log("NEXT4");
+      console.log(r);
+      var component = 
+        <table>
+        <tr>
+          for (var i in r) {
+            <td>r[i]</td>
+          }
+          </tr>
+        </table>
+      
+      console.log(component);
+      console.log(e);
     });
+
+
+    // is.deployed().then((instance) => {
+    //   IdStoreInstance = instance;
+    //   console.log('i');
+    //   window.ISA = IdStoreInstance;
+    //   var event = IdStoreInstance.IdCreated();
+    //   event.watch((e,s)=>{console.log("EVENT!!!"); console.log(e,s);});
+    //   return IdStoreInstance.createId(name,email,address,"FB","shh its a secret", {from: window.web3.eth.defaultAccount});
+    // }).then(() => {
+    //   console.log("e");
+    //   console.log("succ");
+    // });
     // window.ISA.createId.sendTransaction( "a","a",web3.eth.defaultAccount, 'a', 'a', { from: web3.eth.defaultAccount })
     // console.log(is);
     // console.log(this.props.authData.name,
@@ -69,6 +121,7 @@ class Dashboard extends Component {
     this.setState({address: event.target.value});
   }
   render() {
+
     return(
       <main className="container">
         <div className="pure-g">

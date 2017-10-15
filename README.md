@@ -24,4 +24,14 @@ npm start
 
 
  - 0x - simple building blocks - i make simple building block
- 
+
+ - tendermint - 10eth - AI - fail rap
+
+
+ Alex Leverington ideas
+ - lottery -> incentivize the login w/ fb, people who login into 2nd dapp using 1st dapp are entered into lottery, blockchain can handle payments easily and theres a paper trail of lottery tickets. 
+
+ Steve - email idea -> stop spam by making companies pay to get my email address, but provide enough for fb login
+
+ ## TESTRPC example
+ `testrpc --account="0x1422ee3048ac357cd7d1afda10db1af59d70721f88c5d6aeaa556b602bf27e78,1000000000000000000"`

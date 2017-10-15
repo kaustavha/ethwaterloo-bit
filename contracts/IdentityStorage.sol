@@ -52,7 +52,7 @@ contract IdentityStorage {
 
 	modifier ownerOrAdmin() {
 		int i = findByAddress(msg.sender);
-		require(identities[uint(i)].associatedAddress != msg.sender && msg.sender != owner);
+		require(identities[uint(i)].associatedAddress == msg.sender || msg.sender == owner);
 		_;
 	}
 	
@@ -94,13 +94,21 @@ contract IdentityStorage {
 	}
 	// =============== END HELPERS ============================================
 
+	// EVENTS!!!!!!!!!!!!!
+
+	event IdCreated(uint i);
+
+
 	// ACCOUNT CREATION, MODIFICATION, FUNDING
 	function createId(string name, string email, address addy, string idProvider, string secret) {
-		identities[idCount] = Identity(State.Created,name,email,addy,idProvider,secret,0,addy,now);
-		idCount++;
+		if (find(name, email, addy, idProvider, secret) == -1) {
+			identities[idCount] = Identity(State.Created,name,email,addy,idProvider,secret,0,addy,now);
+			idCount++;
+		}
+		IdCreated(idCount);
 
-		identities[idCount] = Identity(State.Created,name,email,addy,idProvider,secret,0,addy,now);
-		idCount++;
+		// identities[idCount] = Identity(State.Created,name,email,addy,idProvider,secret,0,addy,now);
+		// idCount++;
 	}
 
 	function fundId(uint i) payable {
@@ -240,7 +248,7 @@ contract IdentityStorage {
 	}
 
 	// DATA GETTING FUNCS
-	function getAll(uint i) constant returns (string, address, uint, address, uint) {
+	function getAll(uint i) constant ownerOrAdmin reqValidId(i) returns (string, address, uint, address, uint) {
 		// figure out enum state of acc
 		string memory state;
 		Identity id = identities[i];
@@ -266,7 +274,7 @@ contract IdentityStorage {
 		);
 	}
 
-	function getSocial(uint i) constant returns (string, string, string) {
+	function getSocial(uint i) constant ownerOrAdmin reqValidId(i) returns (string, string, string) {
 		identities[i].lastActive = now;
 		return (
 			identities[i].name,
