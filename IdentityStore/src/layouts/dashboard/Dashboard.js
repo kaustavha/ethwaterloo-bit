@@ -6,7 +6,7 @@ class Dashboard extends Component {
     super(props)
     authData = this.props
     var address = window.web3.eth.accounts[0];
-    this.state = {address: address, id: 0, privData:'', bit_profile: [], service_profile: [], page_title: 'Dashboard'};
+    this.state = {address: address, id: 0, privData:'', bit_profile: [], service_profile: [], page_title: 'Dashboard', returnUrl: false};
     this.handleChange = this.handleChange.bind(this);    
     this.togglePage = this.togglePage.bind(this);
   }
@@ -59,6 +59,11 @@ class Dashboard extends Component {
       window.nexti++;
     }
 
+    // if (window.returl) {
+    //   if (window.returl)
+    // this.setState({returnUrl: window.returl});
+    // }
+
     is.deployed().then((ISA) => {
       window.ISA = ISA;
       return window.ISA.find(name,email,address,"FB","shh its a secret", {from: window.web3.eth.defaultAccount});
@@ -68,10 +73,18 @@ class Dashboard extends Component {
 				console.log("Tried to find account");
         return window.ISA.createId(name,email,address,"FB","shh its a secret", {from: window.web3.eth.defaultAccount});
       } else {
-      	return window.ISA.findId(name,email,address,"FB","shh its a secret", {from: window.web3.eth.defaultAccount});
+        return window.ISA.findId(name,email,address,"FB","shh its a secret", {from: window.web3.eth.defaultAccount});
       }
     }).then((user_id,e)=>{
+      user_id = user_id.toNumber();
       window.exposeForDebug(user_id,e);
+      if (window.returl !== undefined) {
+        if (window.returl.length > 0) window.location.assign("http://localhost:3001");
+      }
+      // if (this.state.returnUrl) {
+      //   window.location.assign(this.state.returnUrl);
+      //   return;
+      // }
       self.user_id = user_id;
       return window.ISA.getSocial(user_id);
     }).then((service_profile,e) => {

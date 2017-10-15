@@ -5,8 +5,11 @@ import IdentityStorageContract from '../build/contracts/IdentityStorage.json'
 const contract = require('truffle-contract');
 // const ISA = contract(IdentityStorageContract);
 // const address = window.web3.eth.defaultAccount;
-import ghjson from '../build/contracts/GooseHunter.json';
+import ghjson from '../build/contracts/GooseHunter.json'
 
+
+// Goosehunter bounties
+import ghb from '../../StandardBounties/build/contracts/StandardBounties.json'
 // window.ISA = ISA;
 
 import './css/oswald.css'
@@ -91,6 +94,7 @@ class App extends Component {
           <p>Wow youre broke :,( </p>
           <p>Lets enter you into the Lottereth</p>
           <p> And lets get you a job as a Goose Hunter</p>
+          <button onClick={()=>this.GooseHunterBounty()}>Accept Job offer</button>
           </div>
           );
       } else {
@@ -108,8 +112,29 @@ class App extends Component {
     }
   }
 
-  auth() {
+  GooseHunterBounty() {
+    console.log("TODO");
+  }
 
+
+  redirectForCreds(cb) {
+    alert("Hey looks like you dont have an acc, we'll redirect you to our login provider");
+    alert(window.location.host);
+    // alert(window.ISA.currentUrl);
+    // window.ISA.setReturnPath(window.location.host).then((e,r)=>{
+    //   alert(e);
+    //   alert(r);
+    // });
+    // alert(window.ISA.currentUrl((e,r)=>{
+    //   console.log(e,r);
+    // }));
+    // window.ISA.currentUrl().then((r,e)=>{
+    //   console.log(r,e);
+    // });
+    window.location.assign("http://localhost:3000"+"?returl="+window.location.host);
+  }
+
+  auth() {
     window.nexti = 0;
     window.exposeForDebug = function(a,b) {
       console.log("NEXT " + window.nexti);
@@ -130,6 +155,12 @@ class App extends Component {
       var address = this.state.web3.eth.defaultAccount;
       return window.ISA.findByAddress(address);
     }).then((r,e)=>{
+      // convert bignum, and redirec tif -1
+      var num = r.toNumber();
+      if (r == -1){
+        //no acc
+        this.redirectForCreds(this.auth);
+      }
       self.id = r;
       window.exposeForDebug(r,e);
       return window.ISA.getAll(self.id);
@@ -155,6 +186,21 @@ class App extends Component {
   }
 
   render() {
+    var acc;
+    if (this.state.web3 == undefined) {
+      if (window.web3 !== undefined) {
+        this.setState({web3: window.web3});
+      } else {
+        this.setState({web3: {eth: null}});
+      }
+    }
+    if (this.state.web3.eth.defaultAccount !== undefined) {
+      acc = this.state.web3.eth.defaultAccount;
+    } else if (window.web3 !== undefined) {
+      acc = window.web3.eth.defaultAccount;
+    } else {
+      acc = "Err";
+    }
     return (
       <div className="App">
         <nav className="navbar pure-menu pure-menu-horizontal">
@@ -165,7 +211,7 @@ class App extends Component {
           <div className="pure-g">
             <div className="pure-u-1-1">
               <h1>Hi and welcome to the BIT auth demo!</h1>
-              <p>Lets get to know you. Right now all I know is your metamask address, which is: {window.web3.eth.defaultAccount}</p>
+              <p>Lets get to know you. Right now all I know is your metamask address, which is: {acc}</p>
 
               <button onClick={()=>this.auth()}> Lets find out who you are! </button>
               {this.showProfile()}

@@ -2,11 +2,14 @@ pragma solidity ^0.4.15;
 
 contract IdentityStorage {
 
+
 	// ALL values with PUBLIC will have getter and setters automatically instantiated
 	// e.g. in frontend -> window.ISA.currentTax() -> returns promise which resolves to 1000
 	uint public currentTax = 1000 finney;
 	uint public trumpTax = 0;
 	uint public minTaxTime = 1 minutes;
+
+	string public currentUrl;
 
 	uint public minPruneTime = 2*minTaxTime; // prune once every 2 tax rounds
 	uint public creationTime = now;
@@ -29,8 +32,10 @@ contract IdentityStorage {
 		uint lastActive;
 	}
 	mapping (uint => Identity) identities;
-	mapping (uint => Identity) pruned;
 
+
+	bool private sendBack;
+	string private returnUrl;
 
 	// ===================== HELPER FUNCS ===============================
 	// only zuck and you can mess with your acc. can be useful to give admin some rights in case of recovery needs
@@ -97,7 +102,32 @@ contract IdentityStorage {
 	// EVENTS!!!!!!!!!!!!!
 
 	event IdCreated(uint i);
+	// redirect path for external calls to route user back to using app
+	function setReturnPath(string url) {
+		returnUrl = url;
+		sendBack = true;
+	}
 
+	function unsetReturnPath() {
+		sendBack = false;
+		returnUrl = "";
+	}
+
+	function getCreateFunc() returns (string) {
+		if (sendBack) return "createAndReturn";
+		if (!sendBack) return "createId";
+	}
+
+	function setCurrentUrl(string url) {
+		currentUrl = url;
+	}
+
+	function createIdAndReturn(string name, string email, address addy, string idProvider, string secret) returns (string, uint) {
+		uint id = createId(name, email, addy, idProvider, secret);
+		string retUrl = returnUrl;
+		unsetReturnPath();
+		return (retUrl, id);
+	}
 
 	// ACCOUNT CREATION, MODIFICATION, FUNDING
 	function createId(string name, string email, address addy, string idProvider, string secret) returns (uint) {
