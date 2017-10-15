@@ -6,7 +6,7 @@ class Dashboard extends Component {
     super(props)
     authData = this.props
     var address = window.web3.eth.accounts[0];
-    this.state = {address: address, id: 0, privData:'', bit_profile: [], service_profile: [], page_title: 'Dashboard'};
+    this.state = {address: address, id: 0, privData:'', bit_profile: [], service_profile: [], page_title: (window.page_title !== undefined ? window.page_title : 'Dashboard')};
     this.handleChange = this.handleChange.bind(this);    
     this.togglePage = this.togglePage.bind(this);
   }
