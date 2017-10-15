@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import $ from 'jquery'
 const contract = require('truffle-contract')
 import ISA from '../../../build/contracts/IdentityStorage.json'
+
 class Dashboard extends Component {
   constructor(props, { authData }) {
     super(props)
@@ -28,16 +30,41 @@ class Dashboard extends Component {
       if (cb) cb();
     });
   }
+
+  callUpload(user){
+    const address = this.state.address,
+          name = user.name,
+          email = user.email;
+    console.log("upload");
+    $.ajax({
+    dataType: "json",
+    method: 'GET',
+    data: address + ' ' + name + ' ' + email,
+    url: "http://localhost:2000/storj?callback=?"
+    }).done(function(result) {
+      console.log(result);
+    }).fail(function(err){
+      console.log('Something error ', err);
+    })
+  }
+
   storeOnChain(user) {
     var self = this;
     if (this.state.address.length < 1) {
       this.checkMetaMask();
     }
-    console.log(user);
+
+    // Save to storj
+    this.callUpload(user);
+
     const address = this.state.address,
           name = user.name,
           email = user.email;
-          // id "10155849841707360"
+
+          const bucketId = '55221d3e1afbaa47cc165caf';
+          const uploadFilePath = './storj-test-upload.data';
+          const downloadFilePath = './storj-test-download.data';
+          const fileName = 'storj-test-upload6.data'; 
     console.log(address, name, email);
 
     var is = contract(ISA);
@@ -82,7 +109,6 @@ class Dashboard extends Component {
         bit_profile: bit_profile
       });
     });
-
   }
 
 	showPageInfo(){
@@ -157,6 +183,10 @@ class Dashboard extends Component {
   handleChange(event) {
     this.setState({address: event.target.value});
   }
+   handleChangeData(val){
+    this.setState({value: val});
+  }
+
 
   togglePage(){
 		if (this.state.page_title === 'Dashboard'){
@@ -184,6 +214,10 @@ class Dashboard extends Component {
               <h3>Current Wallet Address</h3>
               <input type="text" name="address" value={this.state.address} size="47" onChange={this.handleChange}/>
             </form>
+            <p className="save">
+            the result of storj is {this.save}
+            </p>
+
 
 						{this.showPageInfo()}
 
