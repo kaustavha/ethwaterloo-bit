@@ -100,13 +100,13 @@ contract IdentityStorage {
 
 
 	// ACCOUNT CREATION, MODIFICATION, FUNDING
-	function createId(string name, string email, address addy, string idProvider, string secret) {
-		if (find(name, email, addy, idProvider, secret) == -1) {
+	function createId(string name, string email, address addy, string idProvider, string secret) returns (uint) {
+		if (findId(name, email, addy, idProvider, secret) == -1) {
 			identities[idCount] = Identity(State.Created,name,email,addy,idProvider,secret,0,addy,now);
 			idCount++;
 		}
 		IdCreated(idCount);
-
+		return idCount;
 		// identities[idCount] = Identity(State.Created,name,email,addy,idProvider,secret,0,addy,now);
 		// idCount++;
 	}
@@ -183,6 +183,25 @@ contract IdentityStorage {
 	}
 
 	function find(
+		string name, 
+		string email, 
+		address associatedAddress,
+		string identityProvider, 
+		string secret) constant returns (bool) 
+	{
+		for (uint i=0;i<idCount;i++) {
+			Identity id = identities[i];
+			if (compare(id.name, name) &&
+				compare(id.email, email) &&
+				id.associatedAddress == associatedAddress &&
+				compare(id.identityProvider, identityProvider) &&
+				compare(id.secret, secret)) return true; // need to conv to sha3 to compare strings
+		}
+		return false;
+	}
+
+
+	function findId(
 		string name, 
 		string email, 
 		address associatedAddress,
