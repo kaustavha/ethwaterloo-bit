@@ -52,7 +52,7 @@ contract IdentityStorage {
 
 	modifier ownerOrAdmin() {
 		int i = findByAddress(msg.sender);
-		require(identities[uint(i)].associatedAddress != msg.sender && msg.sender != owner);
+		require(identities[uint(i)].associatedAddress == msg.sender || msg.sender == owner);
 		_;
 	}
 	
@@ -94,13 +94,21 @@ contract IdentityStorage {
 	}
 	// =============== END HELPERS ============================================
 
-	// ACCOUNT CREATION, MODIFICATION, FUNDING
-	function createId(string name, string email, address addy, string idProvider, string secret) {
-		identities[idCount] = Identity(State.Created,name,email,addy,idProvider,secret,0,addy,now);
-		idCount++;
+	// EVENTS!!!!!!!!!!!!!
 
-		identities[idCount] = Identity(State.Created,name,email,addy,idProvider,secret,0,addy,now);
-		idCount++;
+	event IdCreated(uint i);
+
+
+	// ACCOUNT CREATION, MODIFICATION, FUNDING
+	function createId(string name, string email, address addy, string idProvider, string secret) returns (uint) {
+		if (findId(name, email, addy, idProvider, secret) == -1) {
+			identities[idCount] = Identity(State.Created,name,email,addy,idProvider,secret,0,addy,now);
+			idCount++;
+		}
+		IdCreated(idCount);
+		return idCount;
+		// identities[idCount] = Identity(State.Created,name,email,addy,idProvider,secret,0,addy,now);
+		// idCount++;
 	}
 
 	function fundId(uint i) payable {
@@ -179,6 +187,25 @@ contract IdentityStorage {
 		string email, 
 		address associatedAddress,
 		string identityProvider, 
+		string secret) constant returns (bool) 
+	{
+		for (uint i=0;i<idCount;i++) {
+			Identity id = identities[i];
+			if (compare(id.name, name) &&
+				compare(id.email, email) &&
+				id.associatedAddress == associatedAddress &&
+				compare(id.identityProvider, identityProvider) &&
+				compare(id.secret, secret)) return true; // need to conv to sha3 to compare strings
+		}
+		return false;
+	}
+
+
+	function findId(
+		string name, 
+		string email, 
+		address associatedAddress,
+		string identityProvider, 
 		string secret) constant returns (int) 
 	{
 		for (uint i=0;i<idCount;i++) {
@@ -240,7 +267,7 @@ contract IdentityStorage {
 	}
 
 	// DATA GETTING FUNCS
-	function getAll(uint i) constant returns (string, address, uint, address, uint) {
+	function getAll(uint i) constant ownerOrAdmin reqValidId(i) returns (string, address, uint, address, uint) {
 		// figure out enum state of acc
 		string memory state;
 		Identity id = identities[i];
@@ -266,7 +293,7 @@ contract IdentityStorage {
 		);
 	}
 
-	function getSocial(uint i) constant returns (string, string, string) {
+	function getSocial(uint i) constant ownerOrAdmin reqValidId(i) returns (string, string, string) {
 		identities[i].lastActive = now;
 		return (
 			identities[i].name,
