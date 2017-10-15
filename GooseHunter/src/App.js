@@ -9,7 +9,7 @@ import ghjson from '../build/contracts/GooseHunter.json'
 
 
 // Goosehunter bounties
-import ghb from '../../StandardBounties/build/contracts/StandardBounties.json'
+// import ghb from '../../StandardBounties/build/contracts/StandardBounties.json'
 // window.ISA = ISA;
 
 import './css/oswald.css'
