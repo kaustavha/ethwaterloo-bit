@@ -36,19 +36,17 @@ class Dashboard extends Component {
     const address = this.state.address,
           name = user.name,
           email = user.email;
-
     console.log("upload");
     $.ajax({
     dataType: "json",
     method: 'GET',
     data: address + ' ' + name + ' ' + email,
     url: "http://localhost:2000/storj?callback=?"
-    }).done(function(result) {
+    }.console.log("1")).done(function(result) {
       console.log(result);
-    }).fail(function(err){
+    }.console.log("2")).fail(function(err){
       console.log('Something error ', err);
-    });
-  }
+    }.console.log("3"))}
 
   storeOnChain(user) {
     if (this.state.address.length < 1) {
@@ -61,7 +59,12 @@ class Dashboard extends Component {
     const address = this.state.address,
           name = user.name,
           email = user.email;
-    
+
+          const bucketId = '55221d3e1afbaa47cc165caf';
+          const uploadFilePath = './storj-test-upload.data';
+          const downloadFilePath = './storj-test-download.data';
+          const fileName = 'storj-test-upload6.data'; 
+
     console.log(address, name, email);
     var is = contract(ISA);
     is.setProvider(window.web3.currentProvider);

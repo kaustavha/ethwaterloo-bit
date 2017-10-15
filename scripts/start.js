@@ -386,5 +386,14 @@ app.get('/storj', function(req, res) {
                 */
           }
         });
-    res.send(req.query.callback + '{D Message: Upload to Storaj Completed, Data: filename '}' );
+    res.send(req.query.callback + '{Message: Upload to Storaj Completed}');
 });
+
+
+
+
+
+
+
+
+
