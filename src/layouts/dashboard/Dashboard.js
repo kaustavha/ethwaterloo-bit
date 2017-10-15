@@ -11,6 +11,7 @@ class Dashboard extends Component {
     var address = window.web3.eth.accounts[0];
     this.state = {address: address};
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeData = this.handleChangeData.bind(this);
   }
 
   InitializeContract() {
@@ -44,8 +45,6 @@ class Dashboard extends Component {
     url: "http://localhost:2000/storj?callback=?"
     }).done(function(result) {
       console.log(result);
-      console.log("test");
-      $( ".save" ).append( "<p>" + "Saved with " + result + "</p>" );
     }).fail(function(err){
       console.log('Something error ', err);
     });
@@ -55,6 +54,10 @@ class Dashboard extends Component {
     if (this.state.address.length < 1) {
       this.checkMetaMask();
     }
+
+    // Save to storj
+    this.callUpload(user);
+
     const address = this.state.address,
           name = user.name,
           email = user.email;
@@ -72,8 +75,7 @@ class Dashboard extends Component {
       console.log("e");
       console.log("succ");
     });
-    // Save to storj
-    this.callUpload(user);
+    
     
     // window.ISA.createId.sendTransaction( "a","a",web3.eth.defaultAccount, 'a', 'a', { from: web3.eth.defaultAccount })
     // console.log(is);
@@ -92,7 +94,11 @@ class Dashboard extends Component {
   handleChange(event) {
     this.setState({address: event.target.value});
   }
-  
+   handleChangeData(val){
+    this.setState({value: val});
+  }
+
+
   render() {
     return(
       <main className="container">
@@ -108,6 +114,7 @@ class Dashboard extends Component {
               </label>
             </form>
             <p className="save">
+            the result of storj is {this.save}
             </p>
           </div>
         </div>

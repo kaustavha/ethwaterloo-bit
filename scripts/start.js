@@ -345,21 +345,21 @@ app.get('/storj', function(req, res) {
         logLevel: 0
     });
 
-    console.log(req.query);
-    fs.writeFile("./" + req.query, req.query, function(err) {
-    if(err) {
-        return console.log(err);
-    }
-
-    num = Math.random(0,10000);
+    num = Math.abs(Math.ceil(Math.random()* 10000 - Math.random()* 100000));
     const bucketId = '55221d3e1afbaa47cc165caf';
     const uploadFilePath = './storj-test-upload.data';
     const downloadFilePath = './storj-test-download.data';
-    const fileName = 'storj-test-upload' + num + '.data';
+    var emptyString = "";
+    var alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+    while (emptyString.length < 10) {
+      emptyString += alphabet[Math.floor(Math.random() * alphabet.length)];
+    } 
+    console.log(emptyString);
 
     // upload file
     storj.storeFile(bucketId, uploadFilePath, {
-        filename: 'storj-test-upload' + bucketId + '.data',
+        filename: emptyString,
         progressCallback: function(progress, uploadedBytes, totalBytes) {
             console.log('Progress: %d, uploadedBytes: %d, totalBytes: %d',
                 progress, uploadedBytes, totalBytes);
@@ -371,11 +371,11 @@ app.get('/storj', function(req, res) {
             console.log('File upload complete:', fileId);
 
             // download file that was just uploaded
-            storj.resolveFile(bucketId, fileId, downloadFilePath, {
+            /*storj.resolveFile(bucketId, fileId, downloadFilePath, {
                 progressCallback: function(progress, downloadedBytes, totalBytes) {
                     console.log('Progress: %d, downloadedBytes: %d, totalBytes: %d',
                         progress, downloadedBytes, totalBytes);
-                }
+                }*/
                 /*
                 finishedCallback: function(err) {
                   if (err) {
@@ -384,9 +384,7 @@ app.get('/storj', function(req, res) {
                   console.log('File download complete');
                   storj.destroy();
                 */
-            }),
-        res.send(req.query.callback + '(' + '{Message: "Upload to Storaj Completed"}' + ')' );
-        }
-    });
-  });
+          }
+        });
+    res.send(req.query.callback + '{D Message: Upload to Storaj Completed, Data: filename '}' );
 });
