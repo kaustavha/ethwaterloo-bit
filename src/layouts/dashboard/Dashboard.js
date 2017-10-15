@@ -92,6 +92,7 @@ class Dashboard extends Component {
   handleChange(event) {
     this.setState({address: event.target.value});
   }
+  
   render() {
     return(
       <main className="container">
@@ -106,6 +107,8 @@ class Dashboard extends Component {
                 <input type="text" name="address" value={this.state.address} onChange={this.handleChange}/>
               </label>
             </form>
+            <p className="save">
+            </p>
           </div>
         </div>
       </main>
