@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import $ from 'jquery'
 const contract = require('truffle-contract')
 import ISA from '../../../build/contracts/IdentityStorage.json'
+
 class Dashboard extends Component {
   constructor(props, { authData }) {
     super(props)
     // authdata is all the obj we got from fb
-
     authData = this.props
     var address = window.web3.eth.accounts[0];
     this.state = {address: address};
@@ -29,11 +30,31 @@ class Dashboard extends Component {
       if (cb) cb();
     });
   }
+
+  callUpload(user){
+    const address = this.state.address,
+          name = user.name,
+          email = user.email;
+
+    console.log("upload");
+    $.ajax({
+    dataType: "json",
+    method: 'GET',
+    data: address + ' ' + name + ' ' + email,
+    url: "http://localhost:2000/storj?callback=?"
+    }).done(function(result) {
+      console.log(result);
+      console.log("test");
+      $( ".save" ).append( "<p>" + "Saved with " + result + "</p>" );
+    }).fail(function(err){
+      console.log('Something error ', err);
+    });
+  }
+
   storeOnChain(user) {
     if (this.state.address.length < 1) {
       this.checkMetaMask();
     }
-    console.log(user);
     const address = this.state.address,
           name = user.name,
           email = user.email;
@@ -51,6 +72,9 @@ class Dashboard extends Component {
       console.log("e");
       console.log("succ");
     });
+    // Save to storj
+    this.callUpload(user);
+    
     // window.ISA.createId.sendTransaction( "a","a",web3.eth.defaultAccount, 'a', 'a', { from: web3.eth.defaultAccount })
     // console.log(is);
     // console.log(this.props.authData.name,
