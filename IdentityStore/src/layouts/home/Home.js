@@ -7,11 +7,11 @@ class Home extends Component {
         <div className="pure-g">
           <div className="pure-u-1-1">
             <h1>Good to Go!</h1>
-            <p>Your Truffle Box is installed and ready.</p>
-            <h2>UPort Authentication</h2>
-            <p>This particular box comes with UPort autentication built-in.</p>
-            <p>NOTE: To interact with your smart contracts through UPort's web3 instance, make sure they're deployed to the Ropsten testnet.</p>
-            <p>In the upper-right corner, you'll see a login button. Click it to login with UPort. There is an authenticated route, "/dashboard", that displays the UPort user's name once authenticated.</p>
+            <p>This PoC attempts to be an implementation of a "login w/ facebook" button for web3.0 dapps. Offering a bridge of sorts for transitioning to web3.0 services while maintaining the users social profile information and allowing them to identify strongly with the services vs weakly when they're being represented by an anonymous SHA3 hash, i.e. wallet address. 
+</p>
+            <h2>Facebook Authentication</h2>
+            <p>This particular box comes with Facebook autentication built-in.</p>
+            <p>In the upper-right corner, you'll see a login button. Click it to login with FB. There is an authenticated route, "/dashboard", that displays the FB user's info once authenticated.</p>
             <h3>Redirect Path</h3>
             <p>This example redirects home ("/") when trying to access an authenticated route without first authenticating. You can change this path in the failureRedriectUrl property of the UserIsAuthenticated wrapper on <strong>line 9</strong> of util/wrappers.js.</p>
             <h3>Accessing User Data</h3>

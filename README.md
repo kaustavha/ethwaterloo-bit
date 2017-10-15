@@ -42,3 +42,14 @@ This also provides a proof of identity and proof of login for the user in case i
 
 ## Experimental featurettes:
 - taxation & identity pruning
+- identity pruning
+- Staking associated with id's to prevent abusive behaviour
+
+
+## PICTURES!!
+
+![Secondary Dapp/user](./readme_images/1.png) Secondary Dapp/user
+![Authenticated BIT using app](./readme_images/2.png) Authenticated BIT using app
+![BIT PoC introscreen](./readme_images/5.png) BIT PoC introscreen
+![BIT data display](./readme_images/3.png) BIT data display
+![BIT data display 2](./readme_images/4.png) BIT data display 2
