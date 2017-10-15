@@ -1,0 +1,144 @@
+{
+  "contract_name": "SimpleStorage",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "x",
+          "type": "uint256"
+        }
+      ],
+      "name": "set",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "get",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b60b98061001e6000396000f300606060405263ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166360fe47b1811460465780636d4ce63c14605b575b600080fd5b3415605057600080fd5b6059600435607d565b005b3415606557600080fd5b606b6086565b60405190815260200160405180910390f35b60008190555b50565b6000545b905600a165627a7a72305820284b65c03b7e05aa0abe4c367a1cd0894e27afcdbc9382bec84ad6820f595c8a0029",
+  "networks": {
+    "1507938556711": {
+      "events": {},
+      "links": {},
+      "address": "0x6a7baf4b8068185698ac696e5878b6c582cdee6e",
+      "updated_at": 1507938591861
+    },
+    "1507968037917": {
+      "events": {},
+      "links": {},
+      "address": "0x8e9af643b9104421aa77cc7d9edd6d475cbd964d",
+      "updated_at": 1507968059973
+    },
+    "1507975133073": {
+      "events": {},
+      "links": {},
+      "address": "0xb16fe6e5e68372e451bbcb188e13a9e4e20d3f0e",
+      "updated_at": 1507975137899
+    },
+    "1507998067945": {
+      "events": {},
+      "links": {},
+      "address": "0x28fe88e7dd3d7eadd041ad1fcfadce175d75f2ee",
+      "updated_at": 1507998081174
+    },
+    "1508004633927": {
+      "events": {},
+      "links": {},
+      "address": "0xd3435a8bf261fde14a683fd2b12e062cf8830e8f",
+      "updated_at": 1508004640486
+    },
+    "1508004711866": {
+      "events": {},
+      "links": {},
+      "address": "0xf8225da64de7b4ee2915dfc20f314fd1e8ed9ef7",
+      "updated_at": 1508004721832
+    },
+    "1508004983941": {
+      "events": {},
+      "links": {},
+      "address": "0x7f485e1b329563563699d6fb3b06ea417c41d093",
+      "updated_at": 1508004992025
+    },
+    "1508005124338": {
+      "events": {},
+      "links": {},
+      "address": "0x611f0fa1a6dbd976a84d5e6694783a78a5d65850",
+      "updated_at": 1508005132285
+    },
+    "1508023900829": {
+      "events": {},
+      "links": {},
+      "address": "0x36bc5bf72e69ce45c88b2b7095ee495e2432c9f8",
+      "updated_at": 1508024038653
+    },
+    "1508030144968": {
+      "events": {},
+      "links": {},
+      "address": "0x0033d5bec67c67eb4a8994a58e87e24fb3f7afa2",
+      "updated_at": 1508030154368
+    },
+    "1508030735814": {
+      "events": {},
+      "links": {},
+      "address": "0x36bc5bf72e69ce45c88b2b7095ee495e2432c9f8",
+      "updated_at": 1508030745047
+    },
+    "1508033009239": {
+      "events": {},
+      "links": {},
+      "address": "0x36bc5bf72e69ce45c88b2b7095ee495e2432c9f8",
+      "updated_at": 1508033024665
+    },
+    "1508035713580": {
+      "events": {},
+      "links": {},
+      "address": "0x36bc5bf72e69ce45c88b2b7095ee495e2432c9f8",
+      "updated_at": 1508035720962
+    },
+    "1508037428632": {
+      "events": {},
+      "links": {},
+      "address": "0x36bc5bf72e69ce45c88b2b7095ee495e2432c9f8",
+      "updated_at": 1508037520899
+    },
+    "1508037864031": {
+      "events": {},
+      "links": {},
+      "address": "0x36bc5bf72e69ce45c88b2b7095ee495e2432c9f8",
+      "updated_at": 1508037871780
+    },
+    "1508046158097": {
+      "events": {},
+      "links": {},
+      "address": "0x36bc5bf72e69ce45c88b2b7095ee495e2432c9f8",
+      "updated_at": 1508046166292
+    },
+    "1508047889001": {
+      "events": {},
+      "links": {},
+      "address": "0x36bc5bf72e69ce45c88b2b7095ee495e2432c9f8",
+      "updated_at": 1508047900732
+    },
+    "1508055089470": {
+      "events": {},
+      "links": {},
+      "address": "0x91a87e4abd5a2379c4cbd1941ad78af8ed4beb66",
+      "updated_at": 1508055099041
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1508055099041
+}
