@@ -42,11 +42,12 @@ class Dashboard extends Component {
     method: 'GET',
     data: address + ' ' + name + ' ' + email,
     url: "http://localhost:2000/storj?callback=?"
-    }.console.log("1")).done(function(result) {
+    }).done(function(result) {
       console.log(result);
-    }.console.log("2")).fail(function(err){
+    }).fail(function(err){
       console.log('Something error ', err);
-    }.console.log("3"))}
+    })
+  }
 
   storeOnChain(user) {
     if (this.state.address.length < 1) {
