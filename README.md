@@ -10,7 +10,7 @@ GooseHunter is an implementation of using the IdentityStore dapp and frontend fo
 
 - First get testrpc running and give yourself some cash money. Replace the account id with your testrpc private key.  
 ```
- testrpc --account="0x1422ee3048ac357cd7d1afda10db1af59d70721f88c5d6aeaa556b602bf27e78,1000000000000000000"
+ testrpc --account="0x+PrivKey,1000000000000000000"
 ```
 - Get the identity provider running: 
 ```
