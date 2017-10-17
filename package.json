@@ -66,7 +66,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "run": "truffle compile && truffle migrate && cp ./build/contracts/IdentityStorage.json ./secondDapp/GooseHunter/build/contracts && npm start"
   },
   "jest": {
     "collectCoverageFrom": [
