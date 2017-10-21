@@ -5,15 +5,9 @@ import FacebookLogin from 'react-facebook-login';
 
 
  const LoginButton = ({ onLoginUserClick }) => {
- 	const responseFacebook = (response) => {
- 		console.log(response);
- 		console.log("aaaaaaaaaaaaaa")
- 		console.log(this.state);
- 		// dispatch(userLoggedIn(response))
- 	}
     return (
       <FacebookLogin
-        appId="1496742003751714"
+        appId="<app-id>"
         autoLoad={false}
         fields="name,email,picture"
         scope="public_profile,user_friends,user_actions.books"
