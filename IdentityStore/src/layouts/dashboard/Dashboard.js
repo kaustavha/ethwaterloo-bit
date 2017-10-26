@@ -76,7 +76,7 @@ class Dashboard extends Component {
         return window.ISA.findId(name,email,address,"FB","shh its a secret", {from: window.web3.eth.defaultAccount});
       }
     }).then((user_id,e)=>{
-      user_id = user_id.toNumber();
+      user_id = parseInt(user_id);
       window.exposeForDebug(user_id,e);
       if (window.returl !== undefined) {
         if (window.returl.length > 0) window.location.assign("http://localhost:3001");

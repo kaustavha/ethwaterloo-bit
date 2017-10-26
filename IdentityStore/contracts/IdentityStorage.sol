@@ -248,6 +248,7 @@ contract IdentityStorage {
 		}
 		return -1;
 	}
+
 	// TAXATION & CLEANUP, ADMIN LEVEL FUNCS
 
 	// if user wasnt active since last tax time, tax them. use taxes to make setting lastActive time free?
@@ -294,11 +295,28 @@ contract IdentityStorage {
 		uint confiscatedFunds = identities[i].money;
 		identities[i].money = 0;
 		coffers += confiscatedFunds;
+	}	
+
+	function closeAccount(uint i) ownerOrAdmin reqValidId(i) returns (bool) {
+		Identity id = identities[i];
+		if (id.state == State.Banned) {
+			return false; // cant close a banned acc, we confiscate funds
+		} else {
+			uint amt = id.money;
+			id.money = 0;
+			id.state = State.Tombstoned;
+			// Clean up space
+			id.associatedAddress.transfer(amt);
+			return true;
+		}
+
 	}
 
-	// DATA GETTING FUNCS
-	function getAll(uint i) constant ownerOrAdmin reqValidId(i) returns (string, address, uint, address, uint) {
-		// figure out enum state of acc
+	function end() ownerOrAdmin onlyBy(owner) {
+		selfdestruct(owner);
+	}
+
+	function getAccountState(uint i) constant ownerOrAdmin reqValidId(i) returns (string) {
 		string memory state;
 		Identity id = identities[i];
 		if (id.state == State.Created) {
@@ -308,14 +326,20 @@ contract IdentityStorage {
 		} else if (id.state == State.Tombstoned) {
 			state = "Tombstoned";
 		} else if (id.state == State.Premium) {
-			state = "Trump";
+			state = "Premium";
 		}
+		return state;
+	}
 
+	// DATA GETTING FUNCS
+	function getAll(uint i) constant ownerOrAdmin reqValidId(i) returns (address, uint, address, uint) {
+		// figure out enum state of acc
+		string memory state;
+		Identity id = identities[i];
 		uint lastActive = id.lastActive;
 		id.lastActive = now;
 
 		return (
-			state,
 			id.associatedAddress,
 			id.money,
 			id.lastFunder,
@@ -330,23 +354,5 @@ contract IdentityStorage {
 			identities[i].email,
 			identities[i].identityProvider
 		);
-	}
-
-	function closeAccount(uint i) ownerOrAdmin reqValidId(i) returns (bool) {
-		Identity id = identities[i];
-		if (id.state == State.Banned) {
-			return false; // cant close a banned acc, we confiscate funds
-		} else {
-			uint amt = id.money;
-			id.money = 0;
-			id.state = State.Tombstoned;
-			// Clean up space
-			id.associatedAddress.transfer(amt);
-		}
-
-	}
-
-	function end() onlyBy(owner) {
-		selfdestruct(owner);
 	}
 }
