@@ -1,3 +1,26 @@
+# README
+
+## High level overview
+
+Basic Identity Token attempts to create a protocol for self-sovereign distributed identities with the ability to retain information about social graphs and connections.  
+
+The hope is to decentralize social media personas, thereby improve UX on next-gen social media sites by allowing an identity with its social graph to exist in an open decentralized manner and allow any new sites the user signs up for to use them. This saves the user wasted time re-generating their social graph on every new site manually due to the walled garden problem created by closed segregated social media databases.  
+
+The current PoC code implement a login with FB button for Ethereum/Hyperledger Dapps allowing easier migration of classical social media users and persona information to the web3 decentralized world.  
+
+## Licensing todos
+
+This project is licensed under the MIT license and therefore will not use any GPL (copyleft) licensed libraries.  
+
+Currently the project has code requiring web3js and storj which are released under the GPL license. These have been removed from package.json and are no longer dependencies and will need to be refactored from the code.  
+
+Moving forward this project will use `ethers-io/ethersjs` instead of web3js, ethersjs is MIT licensed. Current code will be wrapped to populate the web3 namespace with a shim for ethersjs.  
+E.g. https://github.com/ethers-io/ethers.js/issues/59 
+
+
+From our experimentations the storj api was found to be unuseable and unnecessary and therefore that dependency will be dropped entirely.   
+We will instead move to simply using the IPFS API. IPFS is licensed under MIT.  
+
 # README - Basic Identity Token
 
 Welcome to the PoC of BIT. 
