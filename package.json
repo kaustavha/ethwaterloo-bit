@@ -59,7 +59,7 @@
     "redux": "^3.6.0",
     "redux-auth-wrapper": "^1.0.0",
     "redux-thunk": "^2.2.0",
-    "uport-connect": "^0.6.1",
+    "uport-connect": "^0.6.1"
   },
   "scripts": {
     "start": "node scripts/start.js",
